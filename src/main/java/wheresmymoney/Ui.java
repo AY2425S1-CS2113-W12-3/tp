@@ -73,7 +73,7 @@ public class Ui {
             argumentsList = parser.parseCommandToArguments(line);
             try {
                 isAskingInput = parser.commandMatching(argumentsList, expenseList);
-            } catch (WheresMyMoneyException e){
+            } catch (Exception e){
                 System.out.println(e.getMessage());
             }
         }

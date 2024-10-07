@@ -59,7 +59,7 @@ public class Parser{
      * @throws Exception If command fails to run
      */
     public boolean commandMatching(HashMap<String, String> argumentsList, ExpenseList expenseList) 
-            throws WheresMyMoneyException {
+            throws Exception {
         int index;
         float price;
         String description;
@@ -80,6 +80,10 @@ public class Parser{
             price = Float.parseFloat(argumentsList.get(Parser.ARGUMENT_PRICE));
             description = argumentsList.get(Parser.ARGUMENT_DESCRIPTION);
             expenseList.editExpense(index, category, price, description);
+            break;
+        case "delete":
+            index = Integer.parseInt(argumentsList.get(Parser.ARGUMENT_MAIN)) - 1;
+            expenseList.deleteExpense(index);
             break;
         case "help":
             Ui.displayHelp();
