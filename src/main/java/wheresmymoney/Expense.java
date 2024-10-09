@@ -1,19 +1,19 @@
 package wheresmymoney;
 
 public class Expense {
-    protected float price;
+    protected Float price;
     protected String description;
     protected String category;
 
 
-    public Expense(float price, String description, String category) {
+    public Expense(Float price, String description, String category) {
         this.price = price;
         this.description = description;
         this.category = category;
     }
 
     
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
     public String getDescription() {
@@ -22,7 +22,7 @@ public class Expense {
     public String getCategory() {
         return category;
     }
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
     public void setDescription(String description) {
