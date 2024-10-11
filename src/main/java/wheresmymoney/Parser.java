@@ -9,80 +9,112 @@ public class Parser{
     public static final String ARGUMENT_DESCRIPTION = "description";
 
     /**
-     * Parses the given user input into command arguments
-     * @param line Line that a user inputs
-     * @return HashMap of Arguments, mapping the argument to its value given
+     * Gets command from words.
+     * @param words String list of arguments
+     * @return command word
      */
-    public HashMap<String, String> parseCommandToArguments(String line) {
-        HashMap<String, String> argumentsList = new HashMap<>();
-        String[] lineArgs = line.split(" ");
-
+    private String getCommandFromWords(String[] words){
         // Command
-        if (lineArgs.length <= 0) {
-            argumentsList.put(Parser.ARGUMENT_COMMAND,"");
-            return argumentsList;
+        if (words.length == 0) {
+            return "";
         }
-        argumentsList.put(Parser.ARGUMENT_COMMAND,lineArgs[0]);
+        return(words[0]);
+    }
 
+    /**
+     * Packs command from words into an existing argument map.
+     * @param argumentsMap Arguments Mapping
+     * @param words String list of arguments
+     */
+    private void packCommandToExistingArgumentsMap(HashMap<String, String> argumentsMap, String[] words) {
+        argumentsMap.put(Parser.ARGUMENT_COMMAND,getCommandFromWords(words));
+    }
+
+    /**
+     * Packs following arguments from words into an existing argument map.
+     * @param argumentsMap Arguments Mapping
+     * @param words String list of arguments
+     */
+    private void packFollowingArgumentsToExistingArgumentsMap(HashMap<String, String> argumentsMap, String[] words) {
         // Arguments
         String currArgumentName = Parser.ARGUMENT_MAIN;
         StringBuilder currArgument = new StringBuilder();
-
-        for (int i=1; i<lineArgs.length; i++) {
-            if (lineArgs[i].isEmpty()) { // Should be redundant but just in case
+        for (int i = 1; i < words.length; i++) {
+            if (words[i].isEmpty()) { // Should be redundant but just in case
                 continue;
             }
-            if (lineArgs[i].charAt(0) == '/') {
+            if (words[i].charAt(0) == '/') {
                 // New argument
                 if (!currArgument.toString().isEmpty()){
-                    argumentsList.put(currArgumentName, currArgument.toString().strip());
+                    argumentsMap.put(currArgumentName, currArgument.toString().strip());
                 }
-                currArgumentName = lineArgs[i].replace("/", "");
+                currArgumentName = words[i];
                 currArgument.setLength(0);
             } else {
                 // Add on to existing argument
-                currArgument.append(" ").append(lineArgs[i]);
+                currArgument.append(" ").append(words[i]);
             }
         }
+
         // Add last command
         if (!currArgument.toString().isEmpty()) {
-            argumentsList.put(currArgumentName, currArgument.toString().strip());
+            argumentsMap.put(currArgumentName, currArgument.toString().strip());
         }
+    }
+
+    /**
+     * Packs words into a new argument map.
+     * @param words String list of arguments/words
+     */
+    private HashMap<String, String> packWordsToArgumentsMap(String[] words) {
+        HashMap<String, String> argumentsList = new HashMap<>();
+        packCommandToExistingArgumentsMap(argumentsList, words);
+        packFollowingArgumentsToExistingArgumentsMap(argumentsList, words);
         return argumentsList;
     }
 
     /**
+     * Parses the given user input into command arguments.
+     * @param line Line that a user inputs
+     * @return HashMap of Arguments, mapping the argument to its value given
+     */
+    public HashMap<String, String> parseCommandToArgumentsMap(String line) {
+        String[] words = line.split(" ");
+        return packWordsToArgumentsMap(words);
+    }
+
+    /**
      * Matches the argument list to a related command and runs said command
-     * @param argumentsList List of arguments
+     * @param argumentsMap List of arguments
      * @param expenseList List of expenses
      * @return Whether to continue running the program
      * @throws Exception If command fails to run
      */
-    public boolean commandMatching(HashMap<String, String> argumentsList, ExpenseList expenseList) 
+    public boolean commandMatching(HashMap<String, String> argumentsMap, ExpenseList expenseList)
             throws Exception {
         int index;
         float price;
         String description;
         String category;
-        switch(argumentsList.get(Parser.ARGUMENT_COMMAND)){
+        switch(argumentsMap.get(Parser.ARGUMENT_COMMAND)){
         case "bye":
             System.out.println("Bye. Hope to see you again soon!");
             return false;
         case "add":
-            price = Float.parseFloat(argumentsList.get(Parser.ARGUMENT_PRICE));
-            description = argumentsList.get(Parser.ARGUMENT_DESCRIPTION);
-            category = argumentsList.get(Parser.ARGUMENT_CATEGORY);
+            price = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_PRICE));
+            description = argumentsMap.get(Parser.ARGUMENT_DESCRIPTION);
+            category = argumentsMap.get(Parser.ARGUMENT_CATEGORY);
             expenseList.addExpense(price, description, category);
             break;
         case "edit":
-            index = Integer.parseInt(argumentsList.get(Parser.ARGUMENT_MAIN)) - 1;
-            category = argumentsList.get(Parser.ARGUMENT_CATEGORY);
-            price = Float.parseFloat(argumentsList.get(Parser.ARGUMENT_PRICE));
-            description = argumentsList.get(Parser.ARGUMENT_DESCRIPTION);
+            index = Integer.parseInt(argumentsMap.get(Parser.ARGUMENT_MAIN)) - 1;
+            category = argumentsMap.get(Parser.ARGUMENT_CATEGORY);
+            price = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_PRICE));
+            description = argumentsMap.get(Parser.ARGUMENT_DESCRIPTION);
             expenseList.editExpense(index, category, price, description);
             break;
         case "delete":
-            index = Integer.parseInt(argumentsList.get(Parser.ARGUMENT_MAIN)) - 1;
+            index = Integer.parseInt(argumentsMap.get(Parser.ARGUMENT_MAIN)) - 1;
             expenseList.deleteExpense(index);
             break;
         case "help":
