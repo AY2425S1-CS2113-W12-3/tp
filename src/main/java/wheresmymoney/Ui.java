@@ -64,15 +64,15 @@ public class Ui {
     public void commandEntryLoop(ExpenseList expenseList) {
         // Command Entry
         String line;
-        HashMap<String, String> argumentsList;
+        HashMap<String, String> argumentsMap;
         Scanner scanner = new Scanner(System.in);
         boolean isAskingInput = true;
         while (isAskingInput){
             System.out.print("> ");
             line = scanner.nextLine();
-            argumentsList = parser.parseCommandToArguments(line);
+            argumentsMap = parser.parseCommandToArgumentsMap(line);
             try {
-                isAskingInput = parser.commandMatching(argumentsList, expenseList);
+                isAskingInput = parser.commandMatching(argumentsMap, expenseList);
             } catch (Exception e){
                 System.out.println(e.getMessage());
             }
