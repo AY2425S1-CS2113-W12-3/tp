@@ -1,6 +1,8 @@
 package wheresmymoney;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Parser{
     public static final String ARGUMENT_COMMAND = "command";
@@ -9,6 +11,7 @@ public class Parser{
     public static final String ARGUMENT_PRICE = "price";
     public static final String ARGUMENT_DESCRIPTION = "description";
 
+    private static Logger logger = Logger.getLogger("Foo");
     /**
      * Parses the given user input into command arguments
      *
@@ -16,6 +19,7 @@ public class Parser{
      * @return HashMap of Arguments, mapping the argument to its value given
      */
     public HashMap<String, String> parseCommandToArguments(String line) {
+        logger.log(Level.INFO, "Parsing command: " + line);
         HashMap<String, String> argumentsList = new HashMap<>();
         String[] lineArgs = line.split(" ");
 
@@ -24,6 +28,7 @@ public class Parser{
             argumentsList.put(Parser.ARGUMENT_COMMAND,"");
             return argumentsList;
         }
+        assert lineArgs.length > 0;
         argumentsList.put(Parser.ARGUMENT_COMMAND,lineArgs[0]);
 
         // Arguments
@@ -50,6 +55,7 @@ public class Parser{
         if (!currArgument.toString().isEmpty()) {
             argumentsList.put(currArgumentName, currArgument.toString().strip());
         }
+        logger.log(Level.INFO, "Finish parsing command: " + line);
         return argumentsList;
     }
 
