@@ -1,42 +1,108 @@
-# User Guide
+# WheresMyMoney User Guide
 
 ## Introduction
 
-{Give a product intro}
+WheresMyMoney allows you to keep track of your spending habits and trends with various supporting tools and functionalities.
 
 ## Quick Start
 
-{Give steps to get started quickly}
+1. Ensure you have Java 17 or above installed in your Computer.
+2. Download the latest .jar file from the Github Repository, under releases
+3. Copy the file to the folder you want to use as the home folder for your expenses
+4. Open a command terminal, cd into the folder you put the jar file in, and use the `java -jar tp.jar` command to run the application.
 
-1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
 ## Features 
 
-{Give detailed description of each feature}
 
-### Adding a todo: `todo`
-Adds a new item to the list of todo items.
+### Add an expense: `add`
 
-Format: `todo n/TODO_NAME d/DEADLINE`
+Use the add command to add an expense
 
-* The `DEADLINE` can be in a natural language format.
-* The `TODO_NAME` cannot contain punctuation.  
+Format:  `add [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]`
 
-Example of usage: 
+Notes:
+- Price is a decimal number
+- Description and Category are Text
 
-`todo n/Write the rest of the User Guide d/next week`
+Examples: `add /price 4.50 /description chicken rice /category food`
 
-`todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
+### Edit your expense: `edit`
+
+Use the edit command to edit an expense
+
+Format: `edit INDEX [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]`
+
+Notes:
+- `PRICE` is a decimal number
+- `DESCRIPTION` and Category are Text
+- All parameters are optional and only the parameters that are inputted will be reflected after the edit
+ 
+Examples: `edit 1 /price 5.50 /description chicken rice /category food`
+
+### Delete an expense: `delete`
+
+Use the delete command to delete an expense
+
+Format:  `delete [INDEX]`
+
+Examples: `delete 2`
+
+### Get a list of all your transactions: `list`
+
+Use the list command to display expenses and gives the sum of all expenses listed
+
+Format:  `list [/category CATEGORY]`
+
+Notes:
+- `CATEGORY` is text
+- Lists all expenses the user has if the category is not specified
+- Lists all expenses with that category if specified
+
+Examples: `list /category food`
+
+### Viewing help: `help`
+
+Lists to the user command formats that the app recognises
+
+Format: help [/command COMMAND]
+
+Notes:
+- `COMMAND` is a text
+- `COMMAND` exists in our app
+
+Examples:
+- `help`              lists all commands the app has if command is not specified
+- `help /command add` lists specified command “add” if a command is specified
+
+### Saves expenses to a file: `save`
+
+Saves all expenses to a csv file `./data.csv`, which can then  be loaded by the program.
+
+Format: `save`
+
+### Loads expenses from a file: `load`
+
+Loads all expenses from a csv file `./data.csv`.
+
+Format: `load`
+
 
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
 
-**A**: {your answer here}
+**A**: You can save your expenses to a `.csv` file, which you can then transfer and load on another computer 
 
 ## Command Summary
 
-{Give a 'cheat sheet' of commands here}
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+| Command     | Format                                                                | 
+|-------------|-----------------------------------------------------------------------|
+| Add Expense | `add [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]`  |
+ | Edit Expense | `edit INDEX [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]` |
+| Delete Expense | `delete [INDEX]` |
+| List all Expenses |  `list [/category CATEGORY]` | 
+| Viewing help | `help` |
+| Saves expenses to a file | `save` |
+| Loads expenses from a file | `load` |
