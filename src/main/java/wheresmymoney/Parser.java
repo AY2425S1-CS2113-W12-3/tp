@@ -110,6 +110,9 @@ public class Parser{
         case "save":
             expenseList.saveToCsv("./data.csv");
             break;
+        case "guide":
+            Ui.displayGuide();
+            break;
         case "help":
             Ui.displayHelp();
             break;

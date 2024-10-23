@@ -14,7 +14,9 @@ public class Ui {
      */
     public static void displayIntroText() {
         System.out.println("WheresMyMoney");
-        System.out.println("What can I do for you?");
+        System.out.println("What can I do for you? If this is your first time " +
+                "using this programme and you would like a quick guide, use " +
+                "the \"guide\" command");
     }
 
     /**
@@ -67,6 +69,30 @@ public class Ui {
         System.out.println("    - Category is text");
         System.out.println("    - Lists all expenses the user has if the category is not specified");
         System.out.println("    - Lists all expenses with that category if specified");
+        System.out.println("Examples: list /category food");
+        System.out.println();
+    }
+
+    /**
+     * Displays a quick guide for users to user the programme
+     */
+    public static void displayGuide() {
+        System.out.println("Use the add command to add an expense");
+        System.out.println("Format:  add [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]");
+        System.out.println("Examples: add /price 4.50 /description chicken rice /category food");
+        System.out.println();
+
+        System.out.println("Use the edit command to edit an expense");
+        System.out.println("Format: edit INDEX [/price PRICE] [/description DESCRIPTION] [/category CATEGORY]");
+        System.out.println("Examples: edit 1 /price 5.50 /description chicken rice /category food");
+        System.out.println();
+
+        System.out.println("Use the delete command to delete an expense");
+        System.out.println("Format:  delete [INDEX]");
+        System.out.println("Examples: delete 2");
+        System.out.println();
+
+        System.out.println("Use the list command to display expenses and gives the sum of all expenses listed");
         System.out.println("Examples: list /category food");
         System.out.println();
     }
