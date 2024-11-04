@@ -37,7 +37,7 @@ public class CategoryTracker {
     public boolean contains(String category) {
         return tracker.containsKey(category);
     }
-    
+    public void clear() { tracker.clear(); }
     /**
      * Retrieves the {@code CategoryData} object for a given category.
      *

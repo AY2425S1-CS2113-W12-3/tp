@@ -19,4 +19,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 .vscode/
 *.log
 *.csv
-*.log
+*.lck

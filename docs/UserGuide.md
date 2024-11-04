@@ -86,7 +86,7 @@ Examples: `list /category food`
 
 Lists to the user command formats that the app recognises
 
-Format: help [/command COMMAND]
+Format: `help [/command COMMAND]`
 
 Notes:
 - `COMMAND` is a text
@@ -98,15 +98,37 @@ Examples:
 
 ### Saves expenses to a file: `save`
 
-Saves all expenses to a csv file `./data.csv`, which can then  be loaded by the program.
+Saves data to files.
 
-Format: `save`
+Format: `save [/expenseList EXPENSE_FILE_PATH] [/categoryInfo CATEGORY_FILE_PATH] [/recurringExpenseList RECUR_FILE_PATH]`
 
-### Loads expenses from a file: `load`
+Notes:
+- If nothing at all is specified, it loads from the default paths:
+ - `EXPENSE_FILE_PATH == "expenses_data.csv"`
+ - `CATEGORY_FILE_PATH == "category_spending_limit.csv"`
+ - `RECUR_FILE_PATH == "recurring_expenses_data.csv"`
 
-Loads all expenses from a csv file `./data.csv`.
+Examples:
+- `save`                         saves data to the default paths
+- `save /expenseList ./data.csv` saves only the expenseList to `./data.csv`
 
-Format: `load`
+### Loads data from files: `load`
+
+Loads data from files. 
+
+Format: `load [/expenseList EXPENSE_FILE_PATH] [/categoryInfo CATEGORY_FILE_PATH] [/recurringExpenseList RECUR_FILE_PATH]`
+
+Notes:
+- If nothing at all is specified, it loads from the default paths:
+  - `EXPENSE_FILE_PATH == "expenses_data.csv"`
+  - `CATEGORY_FILE_PATH == "category_spending_limit.csv"`
+  - `RECUR_FILE_PATH == "recurring_expenses_data.csv"`
+- It clears existing data on read for ease of usage.
+- On read failure, it loads whatever it could read from the corrupted files.
+
+Examples:
+- `load`                         loads data from the default paths
+- `load /expenseList ./data.csv` loads only the expenseList from `./data.csv`
 
 ---
 

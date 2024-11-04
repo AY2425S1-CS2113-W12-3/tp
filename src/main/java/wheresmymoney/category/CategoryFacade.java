@@ -71,9 +71,8 @@ public class CategoryFacade {
      * @param expenseList the list of expenses to track category information
      * @throws WheresMyMoneyException if there is an error while loading category info
      */
-    public void loadCategoryInfo(ExpenseList expenseList) throws WheresMyMoneyException {
-        categoryStorage.loadFromCsv("./category_spending_limit.csv",
-                categoryStorage.trackCategoriesOf(expenseList.getExpenseList()));
+    public void loadCategoryInfo(ExpenseList expenseList, String filePath) throws WheresMyMoneyException {
+        categoryStorage.loadFromCsv(filePath, categoryStorage.trackCategoriesOf(expenseList.getExpenseList()));
     }
     /**
      * The interface for {@code LoadCommand} to show filtered categories
@@ -89,9 +88,8 @@ public class CategoryFacade {
      *
      * @throws StorageException if there is an error while saving category info
      */
-    public void saveCategoryInfo() throws StorageException {
-        categoryStorage.saveToCsv("./category_spending_limit.csv",
-                categoryTracker.getTracker());
+    public void saveCategoryInfo(String filePath) throws StorageException {
+        categoryStorage.saveToCsv(filePath, categoryTracker.getTracker());
     }
     /**
      * The interface for {@code SetCommand} to set a spending limit for a specified category.

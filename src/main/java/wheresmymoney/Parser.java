@@ -31,6 +31,9 @@ public class Parser {
     public static final String ARGUMENT_TO = "to";
     public static final String ARGUMENT_LIMIT = "limit";
 
+    public static final String ARGUMENT_EXPENSE_LIST = "expenseList";
+    public static final String ARGUMENT_CATEGORY_INFO = "categoryInfo";
+    public static final String ARGUMENT_RECURRING_EXPENSE_LIST = "recurringExpenseList";
 
     /**
      * Gets command from words.

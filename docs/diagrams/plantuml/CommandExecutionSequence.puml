@@ -5,6 +5,7 @@ participant ":Main"
 participant ":Parser"
 participant ":Command"
 
+"User" -> ":Main" : starts program
 activate ":Main"
 
 ":Main" -> ":Ui": getUserInput()
@@ -33,5 +34,8 @@ deactivate ":Command"
 activate ":Command"
 ":Main" <-- ":Command": boolean
 deactivate ":Command"
+
+"User" <-- ":Main" : ends program when instructed
+deactivate ":Main"
 
 @enduml

@@ -1,5 +1,5 @@
 package wheresmymoney.exception;
-public class WheresMyMoneyException extends Exception {
+public class WheresMyMoneyException extends RuntimeException {
     /**
      * Creates WheresMyMoneyException
      * @param errorMessage Error Message

@@ -40,7 +40,7 @@ public class RecurringExpense extends Expense {
     public void setFrequency(String frequency) throws WheresMyMoneyException {
         if (frequency == null || frequency.isEmpty()) {
             throw new WheresMyMoneyException("Frequency should not be null");
-        } else if (!frequency.equals("daily") || !frequency.equals("weekly") || !frequency.equals("monthly")) {
+        } else if (!frequency.equals("daily") && !frequency.equals("weekly") && !frequency.equals("monthly")) {
             throw new WheresMyMoneyException("Frequency inputted is not \"daily\", \"weekly\" or \"monthly\"");
         }
         this.frequency = frequency;
