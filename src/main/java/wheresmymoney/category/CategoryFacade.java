@@ -16,19 +16,25 @@ import wheresmymoney.exception.WheresMyMoneyException;
  * </p>
  */
 public class CategoryFacade {
+    private CategoryManager categoryManager;
     private CategoryTracker categoryTracker;
     private CategoryFilter categoryFilter;
     private CategoryStorage categoryStorage;
     
     public CategoryFacade() {
+        this.categoryManager = new CategoryManager();
         this.categoryTracker = new CategoryTracker();
         this.categoryFilter = new CategoryFilter();
         this.categoryStorage = new CategoryStorage();
+        // ?
         this.categoryFilter.setCategoryFacade(this);
         this.categoryStorage.setCategoryFacade(this);
     }
     public CategoryTracker getCategoryTracker() {
         return categoryTracker;
+    }
+    public CategoryManager getCategoryManager() {
+        return categoryManager;
     }
     
     /**
