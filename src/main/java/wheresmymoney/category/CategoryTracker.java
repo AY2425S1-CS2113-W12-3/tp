@@ -87,13 +87,12 @@ public class CategoryTracker {
      * @throws WheresMyMoneyException If the category does not exist in the tracker.
      */
     public void addCategory(String category, Float price) throws WheresMyMoneyException {
-        if (tracker.containsKey(category)) {
+        if (!tracker.containsKey(category)) {
+            tracker.put(category, new CategoryData(price));
+        } else {
             CategoryData categoryData = getCategoryDataOf(category);
             assert categoryData != null : "Category exists.";
             categoryData.increaseCurrExpenditureBy(price);
-        } else {
-            CategoryData categoryData = new CategoryData(price);
-            tracker.put(category, categoryData);
         }
     }
 

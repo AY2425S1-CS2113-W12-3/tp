@@ -52,6 +52,12 @@ public class CategoryManager {
             trackerManager.remove(localDate);
         }
     }
+    public void editInTracker(LocalDate oldDate, LocalDate newDate, String oldCategory, String newCategory,
+                              Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+        LocalDate oldYearMonth = DateUtils.dayMonthYearToYearMonth(oldDate);
+        LocalDate newYearMonth = DateUtils.dayMonthYearToYearMonth(newDate);
+        removeFromTracker(oldYearMonth, oldCategory, oldPrice);
+        insertIntoTracker(newYearMonth, newCategory, newPrice);
     }
     
 }
