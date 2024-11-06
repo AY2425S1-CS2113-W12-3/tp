@@ -119,13 +119,22 @@ public class RecurringExpenseList extends ExpenseList {
             Logging.log(Level.INFO, "Attempting to edit recurring expense.");
             RecurringExpense recurringExpense = recurringExpenses.get(index);
             assert (recurringExpense != null);
-            recurringExpense.setPrice(price);
-            recurringExpense.setDescription(description);
-            recurringExpense.setCategory(category);
-            recurringExpense.setDateAdded(DateUtils.stringToDate(lastAddedDate));
-            recurringExpense.setLastAddedDate(lastAddedDate);
-            recurringExpense.setFrequency(frequency);
-            addExpense(price, description, category, lastAddedDate);
+            if (price != null) {
+                recurringExpense.setPrice(price);
+            }
+            if (description != null) {
+                recurringExpense.setDescription(description);
+            }
+            if (category != null) {
+                recurringExpense.setCategory(category);
+            }
+            if (lastAddedDate != null) {
+                recurringExpense.setDateAdded(DateUtils.stringToDate(lastAddedDate));
+                recurringExpense.setLastAddedDate(lastAddedDate);
+            }
+            if (frequency != null) {
+                recurringExpense.setFrequency(frequency);
+            }
             Logging.log(Level.INFO, "Successfully edited recurring expense.");
         } catch (WheresMyMoneyException e) {
             Logging.log(Level.INFO, "Failure when editing recurring expense.");
@@ -226,7 +235,7 @@ public class RecurringExpenseList extends ExpenseList {
             addRecurringExpense(Float.parseFloat(line[2]), line[1], line[0], line[4], line[5]);
         });
 
-        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = DateUtils.getCurrentDate();
         for (RecurringExpense recurringExpense: recurringExpenses) {
             String frequency = recurringExpense.getFrequency();
             String lastAddedDate = recurringExpense.getlastAddedDate();

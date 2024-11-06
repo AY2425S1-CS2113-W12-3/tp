@@ -59,13 +59,13 @@ public class ListCommand extends Command {
     }
 
     private void displayRecurringExpenses(ArrayList<RecurringExpense> expensesToDisplay,
-            RecurringExpenseList recurringExpenseList) throws WheresMyMoneyException{
+            RecurringExpenseList recurringExpenseList) throws WheresMyMoneyException {
         for (RecurringExpense recurringExpense: expensesToDisplay) {
             try {
                 String index = recurringExpenseList.getIndexOf(recurringExpense) + 1 + ". ";
                 String category = "CATEGORY: " + recurringExpense.getCategory();
                 String description = "   DESCRIPTION: " + recurringExpense.getDescription();
-                String price = "   PRICE: " + recurringExpense.getPrice();
+                String price = "   PRICE: " + String.format("%.2f", recurringExpense.getPrice());;
                 String lastAddedDate = "   LAST ADDED DATE: " + recurringExpense.getlastAddedDate();
                 String frequency = "   FREQUENCY: " + recurringExpense.getFrequency();
                 Ui.displayMessage(index + category + description + price + lastAddedDate + frequency);
@@ -88,6 +88,7 @@ public class ListCommand extends Command {
             displayRecurringExpenses(expensesToDisplay, recurringExpenseList);
         } else {
             ArrayList<Expense> expensesToDisplay = getExpensesToDisplay(expenseList);
-            displayExpenses(expensesToDisplay, expenseList);}
+            displayExpenses(expensesToDisplay, expenseList);
+        }
     }
 }

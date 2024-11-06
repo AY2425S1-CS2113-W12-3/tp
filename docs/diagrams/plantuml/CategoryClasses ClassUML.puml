@@ -4,19 +4,19 @@ hide circle
 
 ' class "<<Facade>> \n CategoryFacade" {
 class CategoryFacade {
-'    -CategoryTracker categoryTracker
-'    -CategoryFilter categoryFilter
-'    -CategoryStorage categoryStorage
+'    # categoryTracker : CategoryTracker
+'    # categoryFilter : CategoryFilter
+'    # categoryStorage : CategoryStorage
 
-'    +CategoryFacade()
-'    +getCategoryTracker(): CategoryTracker
-    +addCategory(category: String, price: float) : void
-    +deleteCategory(category: String, price: Float) : void
-    +editCategory(oldCategory: String, newCategory: String, price: float) : void
-    +loadCategoryInfo(expenseList: ExpenseList) : void
-    +displayFilteredCategories() : void
-    +saveCategoryInfo() : void
-    +setCategorySpendingLimit(category: String, limit: float) : void
+'    + CategoryFacade()
+'    + getCategoryTracker(): CategoryTracker
+'    + addCategory(category: String, price: float) : void
+'    + deleteCategory(category: String, price: Float) : void
+'    + editCategory(oldCategory: String, newCategory: String, price: float) : void
+'    + loadCategoryInfo(expenseList: ExpenseList) : void
+'    + displayFilteredCategories() : void
+'    + saveCategoryInfo() : void
+'    + setCategorySpendingLimit(category: String, limit: float) : void
 }
 
 class CategoryTracker {
@@ -26,20 +26,20 @@ class CategoryTracker {
 '    + getTracker(): HashMap<String, CategoryData>
 '    + size(): int
 '    + contains(category: String): boolean
-    +getCategoryDataOf(category: String): CategoryData
-    +checkLimitOf(category: String): void
-    +addCategory(category: String, price: Float): void
-    +editCategory(oldCategory: String, newCategory: String, price: Float): void
-    +deleteCategory(category: String, price: Float): void
-    +setSpendingLimitFor(category: String, spendingLimit: Float): void
+'    + getCategoryDataOf(category: String): CategoryData
+    + checkLimitOf(category: String): void
+    + addCategory(category: String, price: Float): void
+    + editCategory(oldCategory: String, newCategory: String, price: Float): void
+    + deleteCategory(category: String, price: Float): void
+    + setSpendingLimitFor(category: String, spendingLimit: Float): void
 }
 
 class CategoryData {
-    #currExpenditure: Float
-    #maxExpenditure: Float
+    # currExpenditure: Float
+    # maxExpenditure: Float
 
-    + CategoryData(currExpenditure: Float): CategoryData
-    + CategoryData(currExpenditure: Float, maxExpenditure: Float): CategoryData
+'    + CategoryData(currExpenditure: Float): CategoryData
+'    + CategoryData(currExpenditure: Float, maxExpenditure: Float): CategoryData
 '    + getCurrExpenditure(): Float
 '    + getMaxExpenditure(): Float
 '    + setCurrExpenditure(currExpenditure: Float): void
@@ -56,11 +56,11 @@ class CategoryFilter {
     - PriorityQueue<Map.Entry<String, CategoryData>> nearingCategories
 
 '    + setCategoryFacade(categoryFacade: CategoryFacade): void
-    -initMaxHeap(): PriorityQueue<Map.Entry<String, CategoryData>>
-    +getCategoriesFiltered(): void
-    -displayFilteredCategories(filtered: PriorityQueue<Map.Entry<String, CategoryData>>, messageIfFound: String, messageIfNoneFound: String): void
-    +displayExceededCategories(): void
-    +displayNearingCategories(): void
+    - initMaxHeap(): PriorityQueue<Map.Entry<String, CategoryData>>
+    + getCategoriesFiltered(): void
+    - displayFilteredCategories(filtered: PriorityQueue<Map.Entry<String, CategoryData>>, messageIfFound: String, messageIfNoneFound: String): void
+    + displayExceededCategories(): void
+    + displayNearingCategories(): void
 }
 
 CategoryFacade " 1    " <-d-> " 1 " CategoryTracker

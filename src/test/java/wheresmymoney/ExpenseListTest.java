@@ -106,66 +106,66 @@ class ExpenseListTest {
     }
 
     @Test
-    public void editExpense_validEditOfExpenseParameters_success() {
+    public void editExpense_editPriceOnly_success() {
         ExpenseList expenseList = new ExpenseList();
         try {
-            expenseList.addExpense(0.01F, "desc1", "cat1", "25-10-2024");
-            expenseList.editExpense(0, 0.02F, "desc2", "cat2", "26-10-2024");
+            expenseList.addExpense(0.01F, "desc", "cat", "01-01-2024");
+            expenseList.editExpense(0, 1.00F, null, null, null);
             Expense expense = expenseList.getExpenseAtIndex(0);
-            assertEquals(0.02F, expense.getPrice());
-            assertEquals("desc2", expense.getDescription());
-            assertEquals("cat2", expense.getCategory());
-            assertEquals("26-10-2024", DateUtils.dateFormatToString(expense.getDateAdded()));
+            assertEquals(1.00F, expense.getPrice());
+            assertEquals("desc", expense.getDescription());
+            assertEquals("cat", expense.getCategory());
+            assertEquals(DateUtils.stringToDate("01-01-2024"), expense.getDateAdded());
         } catch (WheresMyMoneyException e) {
-            fail("Exception thrown when edit parameters are valid.");
+            fail("Exception thrown when only price was edited.");
         }
     }
+
     @Test
-    public void editExpense_editPriceToNull_throwsWheresMyMoneyException() {
+    public void editExpense_editDescriptionOnly_success() {
         ExpenseList expenseList = new ExpenseList();
         try {
             expenseList.addExpense(0.01F, "desc", "cat", "01-01-2024");
-            expenseList.editExpense(0, null, "desc2", "cat2", "02-01-2024");
-            fail("Exception not thrown when setting price to null");
+            expenseList.editExpense(0, null, "desc1", null, null);
+            Expense expense = expenseList.getExpenseAtIndex(0);
+            assertEquals(0.01F, expense.getPrice());
+            assertEquals("desc1", expense.getDescription());
+            assertEquals("cat", expense.getCategory());
+            assertEquals(DateUtils.stringToDate("01-01-2024"), expense.getDateAdded());
         } catch (WheresMyMoneyException e) {
-            assertThrows(WheresMyMoneyException.class,
-                    () -> expenseList.editExpense(0, null, "desc2", "cat2", "02-01-2024"));
+            fail("Exception thrown when only description was edited.");
         }
     }
+
     @Test
-    public void editExpense_editDescriptionToNull_throwsWheresMyMoneyException() {
+    public void editExpense_editCategoryOnly_success() {
         ExpenseList expenseList = new ExpenseList();
         try {
             expenseList.addExpense(0.01F, "desc", "cat", "01-01-2024");
-            expenseList.editExpense(0, 0.02F, null, "cat2", "02-01-2024");
-            fail("Exception not thrown when setting description to null");
+            expenseList.editExpense(0, null, null, "cat1", null);
+            Expense expense = expenseList.getExpenseAtIndex(0);
+            assertEquals(0.01F, expense.getPrice());
+            assertEquals("desc", expense.getDescription());
+            assertEquals("cat1", expense.getCategory());
+            assertEquals(DateUtils.stringToDate("01-01-2024"), expense.getDateAdded());
         } catch (WheresMyMoneyException e) {
-            assertThrows(WheresMyMoneyException.class,
-                    () -> expenseList.editExpense(0, 0.02F, null, "cat2", "02-01-2024"));
+            fail("Exception thrown when only category was edited.");
         }
     }
+
     @Test
-    public void editExpense_editCategoryToNull_throwsWheresMyMoneyException() {
+    public void editExpense_editDateAddedOnly_success() {
         ExpenseList expenseList = new ExpenseList();
         try {
             expenseList.addExpense(0.01F, "desc", "cat", "01-01-2024");
-            expenseList.editExpense(0, 0.02F, "desc2", null, "02-01-2024");
-            fail("Exception not thrown when setting price to null");
+            expenseList.editExpense(0, null, null, null, "15-10-2024");
+            Expense expense = expenseList.getExpenseAtIndex(0);
+            assertEquals(0.01F, expense.getPrice());
+            assertEquals("desc", expense.getDescription());
+            assertEquals("cat", expense.getCategory());
+            assertEquals(DateUtils.stringToDate("15-10-2024"), expense.getDateAdded());
         } catch (WheresMyMoneyException e) {
-            assertThrows(WheresMyMoneyException.class,
-                    () -> expenseList.editExpense(0, 0.02F, "desc2", null, "02-01-2024"));
-        }
-    }
-    @Test
-    public void editExpense_editDateAddedToNull_throwsWheresMyMoneyException() {
-        ExpenseList expenseList = new ExpenseList();
-        try {
-            expenseList.addExpense(0.01F, "desc", "cat", "01-01-2024");
-            expenseList.editExpense(0, 0.02F, "desc2", "cat2", null);
-            fail("Exception not thrown when setting price to null");
-        } catch (WheresMyMoneyException e) {
-            assertThrows(WheresMyMoneyException.class,
-                    () -> expenseList.editExpense(0, 0.02F, "desc2", "cat2", null));
+            fail("Exception thrown when only description was edited.");
         }
     }
 

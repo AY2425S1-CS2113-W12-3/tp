@@ -65,7 +65,7 @@ public class Ui {
         String index = expenseList.getIndexOf(expense) + 1 + ". ";
         String category = "CATEGORY: " + expense.getCategory();
         String description = "DESCRIPTION: " + expense.getDescription();
-        String price = "PRICE: " + expense.getPrice();
+        String price = "PRICE: " + String.format("%.2f", expense.getPrice());
         String dateAdded = "DATE ADDED: " + expense.getDateAdded();
         Ui.displayMessage(index + category + ", " + description + ", " + price + ", " + dateAdded);
     }

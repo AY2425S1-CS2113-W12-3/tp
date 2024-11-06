@@ -9,59 +9,20 @@ skinparam sequence {
 
 participant ":LoadCommand" as LC
 participant ":RecurringExpenseList" as REL
-participant ":File" as F
-participant ":FileReader" as FR
-participant ":CSVReader" as CSV
+participant ":CsvUtils" as CSV
 participant ":RecurringExpense" as RE
-participant ":LocalDate" as LD
+participant ":DateUtils" as DU
 
 LC -> REL: loadFromCsv(filePath)
 activate REL
 
-REL -> F: new File(filePath)
-activate F
-F --> REL: file
-deactivate F
-
-REL -> FR: new FileReader(file)
-activate FR
-FR --> REL: reader
-deactivate FR
-
-REL -> CSV: new CSVReader(reader)
-activate CSV
-CSV --> REL: csvReader
-deactivate CSV
-
-REL -> CSV: readNext()
-activate CSV
-note right: Skip header
-CSV --> REL: header line
-deactivate CSV
-
-loop while line = csvReader.readNext() != null
-    REL -> CSV: readNext()
-    activate CSV
-    CSV --> REL: line[]
-    deactivate CSV
-    
-    REL -> REL: addRecurringExpense(line[2], line[1], line[0], line[3], line[4])
-end
-
-REL -> FR: close()
-activate FR
-FR --> REL
-deactivate FR
-
-REL -> CSV: close()
-activate CSV
+REL -> CSV: Retrieve recurring expenses
 CSV --> REL
-deactivate CSV
 
-REL -> LD: now()
-activate LD
-LD --> REL: currentDate
-deactivate LD
+REL -> DU: getCurrentDate()
+activate DU
+DU --> REL: currentDate
+deactivate DU
 
 loop for each RecurringExpense
     REL -> RE: getFrequency()

@@ -1,0 +1,12 @@
+
+
+REL -> S: Retrieve recurring expenses from save file
+activate S
+S --> REL
+deactivate S
+note right
+the process of retreiving 
+the recurring expenses 
+from the save note
+file has been heavily abstracted
+end note

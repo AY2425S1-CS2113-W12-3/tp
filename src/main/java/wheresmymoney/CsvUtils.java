@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 
 public class CsvUtils {
-    public static void readCsv(String filePath, Consumer<? super String[]> read_action) throws WheresMyMoneyException{
+    public static void readCsv(String filePath, Consumer<? super String[]> read_action) throws WheresMyMoneyException {
         FileReader reader;
         CSVReader csvReader;
         try {

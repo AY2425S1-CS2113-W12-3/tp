@@ -8,10 +8,11 @@ import wheresmymoney.command.DeleteCommand;
 import wheresmymoney.command.EditCommand;
 import wheresmymoney.command.HelpCommand;
 import wheresmymoney.command.ListCommand;
-import wheresmymoney.command.StatsCommand;
 import wheresmymoney.command.LoadCommand;
 import wheresmymoney.command.SaveCommand;
 import wheresmymoney.command.SetCommand;
+import wheresmymoney.command.StatsCommand;
+import wheresmymoney.command.VisualizeCommand;
 import wheresmymoney.exception.InvalidInputException;
 import wheresmymoney.exception.WheresMyMoneyException;
 
@@ -30,6 +31,7 @@ public class Parser {
     public static final String ARGUMENT_FROM = "from";
     public static final String ARGUMENT_TO = "to";
     public static final String ARGUMENT_LIMIT = "limit";
+    public static final String ARGUMENT_METHOD = "method";
 
     public static final String ARGUMENT_EXPENSE_LIST = "expenseList";
     public static final String ARGUMENT_CATEGORY_INFO = "categoryInfo";
@@ -144,6 +146,8 @@ public class Parser {
             return new ListCommand(argumentsMap);
         case "stats":
             return new StatsCommand(argumentsMap);
+        case "visualize":
+            return new VisualizeCommand(argumentsMap);
         case "load":
             return new LoadCommand(argumentsMap);
         case "save":

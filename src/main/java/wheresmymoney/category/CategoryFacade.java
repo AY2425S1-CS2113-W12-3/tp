@@ -63,11 +63,12 @@ public class CategoryFacade {
      *
      * @param oldCategory the current name of the category to be edited
      * @param newCategory the new name for the category
-     * @param oldPrice the current price of the Expense to be edited
-     * @param newPrice the new price of the Expense to be edited
+     * @param oldPrice    The current price of the {@code Expense}.
+     * @param newPrice    The new price of the {@code Expense}.
      * @throws WheresMyMoneyException if there is an error while editing the category
      */
-    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice)
+            throws WheresMyMoneyException {
         categoryTracker.editCategory(oldCategory, newCategory, oldPrice, newPrice);
         categoryTracker.checkLimitOf(newCategory);
     }
@@ -79,8 +80,11 @@ public class CategoryFacade {
      * @throws WheresMyMoneyException if there is an error while loading category info
      */
     public void loadCategoryInfo(ExpenseList expenseList, String filePath) throws WheresMyMoneyException {
-        categoryStorage.loadFromCsv(filePath, categoryStorage.trackCategoriesOf(expenseList.getExpenseList()));
+        categoryTracker = categoryStorage.loadFromCsv(
+                filePath, categoryStorage.trackCategoriesOf(expenseList.getExpenseList()));
     }
+
+
     /**
      * The interface for {@code LoadCommand} to show filtered categories
      * based on spending limits.

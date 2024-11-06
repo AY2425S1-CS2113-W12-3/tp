@@ -16,7 +16,8 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Add a expense or recurring expense after prasing through arguments
+     * Add an expense or recurring expense after parsing through arguments
+     *
      * @param expenseList List of normal expenses
      * @param recurringExpenseList List of recurring expenses
      */
@@ -25,6 +26,9 @@ public class AddCommand extends Command {
             RecurringExpenseList recurringExpenseList) throws WheresMyMoneyException {
         try {
             float price = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_PRICE));
+            if (price <= 0) {
+                throw new InvalidInputException("Price cannot take on a value that is less than or equal to 0");
+            }
             String description = argumentsMap.get(Parser.ARGUMENT_DESCRIPTION);
             String category = argumentsMap.get(Parser.ARGUMENT_CATEGORY);
             boolean isContainDateKey = argumentsMap.containsKey(Parser.ARGUMENT_DATE);

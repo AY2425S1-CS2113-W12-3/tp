@@ -790,3 +790,141 @@ Nov 03, 2024 9:15:28 PM wheresmymoney.Logging logMessage
 INFO: Parsing Line: byw
 Nov 03, 2024 9:15:30 PM wheresmymoney.Logging logMessage
 INFO: Parsing Line: bye
+Nov 05, 2024 12:00:26 PM wheresmymoney.Logging <init>
+INFO: Started Logging
+Nov 05, 2024 12:00:35 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 4.23423423 /description test /catgeory test
+Nov 05, 2024 12:00:35 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: 4.234234, test, null
+Nov 05, 2024 12:00:44 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 4.23423423 /description test /category test
+Nov 05, 2024 12:00:44 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: 4.234234, test, test
+Nov 05, 2024 12:00:44 PM wheresmymoney.Logging logMessage
+INFO: Successfully added expense.
+Nov 05, 2024 12:00:45 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list
+Nov 05, 2024 12:00:45 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: test
+Nov 05, 2024 12:00:48 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: bye
+Nov 05, 2024 1:38:47 PM wheresmymoney.Logging <init>
+INFO: Started Logging
+Nov 05, 2024 1:38:52 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 
+Nov 05, 2024 1:38:56 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price /category liya
+Nov 05, 2024 1:39:05 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price -1.0 /category liya 
+Nov 05, 2024 1:39:05 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: -1.000000, null, liya
+Nov 05, 2024 1:41:21 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price -1.0 /category liya /description liya
+Nov 05, 2024 1:41:21 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: -1.000000, liya, liya
+Nov 05, 2024 1:41:21 PM wheresmymoney.Logging logMessage
+INFO: Successfully added expense.
+Nov 05, 2024 1:41:23 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list
+Nov 05, 2024 1:41:23 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: liya
+Nov 05, 2024 1:42:20 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: bye
+Nov 05, 2024 1:42:38 PM wheresmymoney.Logging <init>
+INFO: Started Logging
+Nov 05, 2024 1:42:41 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price -1.0 /category liya /description liya
+Nov 05, 2024 1:42:46 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price -1.0 /category liya /description liya /recur
+Nov 05, 2024 1:42:55 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price -1.0 /category liya /description liya
+Nov 05, 2024 1:42:58 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price -1.03434 /category liya /description liya
+Nov 05, 2024 1:43:02 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 0 /category liya /description liya
+Nov 05, 2024 1:43:11 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price -0.00000001 /category liya /description liya
+Nov 05, 2024 1:43:14 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: bye
+Nov 05, 2024 1:44:20 PM wheresmymoney.Logging <init>
+INFO: Started Logging
+Nov 05, 2024 1:44:25 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price -0.00000001 /category liya /description liya
+Nov 05, 2024 1:44:34 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 0 /category liya /description liya
+Nov 05, 2024 1:44:40 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 10 /category liya /description liya
+Nov 05, 2024 1:44:44 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 10 /category liya /description liya /frequency daily
+Nov 05, 2024 1:44:44 PM wheresmymoney.Logging logMessage
+INFO: Adding recurring expense with parameters: 10.000000, liya, liya, daily
+Nov 05, 2024 1:44:44 PM wheresmymoney.Logging logMessage
+INFO: Successfully added recurring expense.
+Nov 05, 2024 1:44:53 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit /recur /price 0 /category liya /description liya /frequency daily
+Nov 05, 2024 1:45:12 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /recur /price 0 /category liya /description liya /frequency daily
+Nov 05, 2024 1:45:17 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /recur /price -0.1 /category liya /description liya /frequency daily
+Nov 05, 2024 1:45:21 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /recur /price 10] /category liya /description liya /frequency daily
+Nov 05, 2024 1:45:25 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /recur /price 10 /category liya /description liya /frequency daily
+Nov 05, 2024 1:45:25 PM wheresmymoney.Logging logMessage
+INFO: Attempting to edit recurring expense.
+Nov 05, 2024 1:45:25 PM wheresmymoney.Logging logMessage
+INFO: Successfully edited recurring expense.
+Nov 05, 2024 1:45:28 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list /recur
+Nov 05, 2024 1:45:42 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 10.0 /description liya /category liya
+Nov 05, 2024 1:45:42 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: 10.000000, liya, liya
+Nov 05, 2024 1:45:42 PM wheresmymoney.Logging logMessage
+INFO: Successfully added expense.
+Nov 05, 2024 1:45:43 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list
+Nov 05, 2024 1:45:43 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: liya
+Nov 05, 2024 1:45:52 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /price 0
+Nov 05, 2024 1:45:54 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: edit 1 /price -0.1
+Nov 05, 2024 1:45:57 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: bye
+Nov 05, 2024 1:52:03 PM wheresmymoney.Logging <init>
+INFO: Started Logging
+Nov 05, 2024 1:52:17 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 2.00 /description liya /category liya
+Nov 05, 2024 1:52:17 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: 2.000000, liya, liya
+Nov 05, 2024 1:52:17 PM wheresmymoney.Logging logMessage
+INFO: Successfully added expense.
+Nov 05, 2024 1:52:18 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list
+Nov 05, 2024 1:52:18 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: liya
+Nov 05, 2024 1:52:25 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /price 2.234234 /description liya /category liya
+Nov 05, 2024 1:52:25 PM wheresmymoney.Logging logMessage
+INFO: Adding expense with parameters: 2.234234, liya, liya
+Nov 05, 2024 1:52:25 PM wheresmymoney.Logging logMessage
+INFO: Successfully added expense.
+Nov 05, 2024 1:52:26 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list
+Nov 05, 2024 1:52:26 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: liya
+Nov 05, 2024 1:52:26 PM wheresmymoney.Logging logMessage
+INFO: Found matching expense: liya
+Nov 05, 2024 1:52:39 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 43.2324234 /description liya /category liya
+Nov 05, 2024 1:52:45 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: add /recur /price 43.2324234 /description liya /category liya /frequency monthly
+Nov 05, 2024 1:52:45 PM wheresmymoney.Logging logMessage
+INFO: Adding recurring expense with parameters: 43.232422, liya, liya, monthly
+Nov 05, 2024 1:52:45 PM wheresmymoney.Logging logMessage
+INFO: Successfully added recurring expense.
+Nov 05, 2024 1:52:47 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: list /recur
+Nov 05, 2024 1:52:50 PM wheresmymoney.Logging logMessage
+INFO: Parsing Line: bye

@@ -30,7 +30,9 @@ public class ExpenseList {
         return expenses.isEmpty();
     }
 
-    public void clear(){ expenses.clear(); }
+    public void clear() {
+        expenses.clear();
+    }
 
     /**
      * Retrieves the {@code Expense} at the specified index in the list.
@@ -105,17 +107,25 @@ public class ExpenseList {
      */
     public void editExpense(int index, Float price, String description, String category, String dateAdded)
             throws WheresMyMoneyException {
-        if (!DateUtils.isInDateFormat(dateAdded)){
+        if (dateAdded != null && !DateUtils.isInDateFormat(dateAdded)){
             throw new WheresMyMoneyException("Invalid date format " + DateUtils.DATE_FORMAT);
         }
         try {
             Logging.log(Level.INFO, "Attempting to edit expense.");
             Expense expense = getExpenseAtIndex(index);
             assert (expense != null);
-            expense.setPrice(price);
-            expense.setDescription(description);
-            expense.setCategory(category);
-            expense.setDateAdded(DateUtils.stringToDate(dateAdded));
+            if (price != null) {
+                expense.setPrice(price);
+            }
+            if (description != null) {
+                expense.setDescription(description);
+            }
+            if (category != null) {
+                expense.setCategory(category);
+            }
+            if (dateAdded != null) {
+                expense.setDateAdded(DateUtils.stringToDate(dateAdded));
+            }
             Logging.log(Level.INFO, "Successfully edited expense.");
         } catch (WheresMyMoneyException e) {
             Logging.log(Level.INFO, "Failure when editing expense.");
