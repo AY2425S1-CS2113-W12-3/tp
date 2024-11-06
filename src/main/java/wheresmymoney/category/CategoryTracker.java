@@ -95,24 +95,7 @@ public class CategoryTracker {
             tracker.put(category, categoryData);
         }
     }
-    /**
-     * Edits category details if an {@code Expense}'s category attribute is changed.
-     * <p>
-     * The {@code Expense}'s price is removed from the old category's total
-     * and added to the new category's total.
-     * </p>
-     *
-     * @param oldCategory The current category of the {@code Expense}.
-     * @param newCategory The new category of the {@code Expense}.
-     * @param price       The {@code Expense}'s price for categories' details to change by.
-     * @throws WheresMyMoneyException If the category does not exist in the tracker.
-     */
-    public void editCategory(String oldCategory, String newCategory, Float price) throws WheresMyMoneyException {
-        if (!oldCategory.equals(newCategory)) {
-            deleteCategory(oldCategory, price);
-            addCategory(newCategory, price);
-        }
-    }
+
     /**
      * Decreases an existing category's running total by the given price.
      *
@@ -131,6 +114,24 @@ public class CategoryTracker {
         if (categoryData.getCurrExpenditure() <= 0) {
             tracker.remove(category);
         }
+    }
+
+    /**
+     * Edits category details if an {@code Expense}'s category attribute is changed.
+     * <p>
+     * The {@code Expense}'s price is removed from the old category's total
+     * and added to the new category's total.
+     * </p>
+     *
+     * @param oldCategory The current category of the {@code Expense}.
+     * @param newCategory The new category of the {@code Expense}.
+     * @param oldPrice    The current price of the {@code Expense}.
+     * @param newPrice    The new price of the {@code Expense}.
+     * @throws WheresMyMoneyException If the category does not exist in the tracker.
+     */
+    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+        deleteCategory(oldCategory, oldPrice);
+        addCategory(newCategory, newPrice);
     }
     
     /**

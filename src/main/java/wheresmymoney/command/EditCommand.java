@@ -27,17 +27,18 @@ public class EditCommand extends Command {
         try {
             int index = Integer.parseInt(argumentsMap.get(Parser.ARGUMENT_MAIN)) - 1;
             String oldCategory = expenseList.getExpenseAtIndex(index).getCategory();
+            float oldPrice = expenseList.getExpenseAtIndex(index).getPrice();
             
             String newCategory = argumentsMap.get(Parser.ARGUMENT_CATEGORY);
-            float price = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_PRICE));
+            float newPrice = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_PRICE));
             String description = argumentsMap.get(Parser.ARGUMENT_DESCRIPTION);
             String dateAdded = argumentsMap.get(Parser.ARGUMENT_DATE);
             if (this.isRecur()) {
                 String frequency = argumentsMap.get(Parser.ARGUMENT_FREQUENCY);
-                recurringExpenseList.editRecurringExpense(index, price, description, newCategory, dateAdded, frequency);
+                recurringExpenseList.editRecurringExpense(index, newPrice, description, newCategory, dateAdded, frequency);
             } else {
-                expenseList.editExpense(index, price, description, newCategory, dateAdded);
-                categoryFacade.editCategory(oldCategory, newCategory, price);
+                expenseList.editExpense(index, newPrice, description, newCategory, dateAdded);
+                categoryFacade.editCategory(oldCategory, newCategory, oldPrice, newPrice);
             }
         } catch (NullPointerException | NumberFormatException e) {
             throw new InvalidInputException("Invalid Arguments.");

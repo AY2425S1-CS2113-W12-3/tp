@@ -63,11 +63,12 @@ public class CategoryFacade {
      *
      * @param oldCategory the current name of the category to be edited
      * @param newCategory the new name for the category
-     * @param price the price of the Expense to be edited
+     * @param oldPrice the current price of the Expense to be edited
+     * @param newPrice the new price of the Expense to be edited
      * @throws WheresMyMoneyException if there is an error while editing the category
      */
-    public void editCategory(String oldCategory, String newCategory, float price) throws WheresMyMoneyException {
-        categoryTracker.editCategory(oldCategory, newCategory, price);
+    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+        categoryTracker.editCategory(oldCategory, newCategory, oldPrice, newPrice);
         categoryTracker.checkLimitOf(newCategory);
     }
     
