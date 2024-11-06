@@ -28,8 +28,11 @@ public class CategoryManager {
         return trackerManager.containsKey(yearMonth);
     }
     
-    private CategoryTracker getTrackerOfPeriod(LocalDate localDate) {
+    private CategoryTracker getTrackerOfPeriod(LocalDate localDate) throws WheresMyMoneyException {
         LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
+        if (containsTrackerOfPeriod(yearMonth)) {
+            throw new WheresMyMoneyException("No such year-month exists in the categoryManager.");
+        }
         return trackerManager.get(yearMonth);
     }
     
@@ -43,9 +46,6 @@ public class CategoryManager {
     }
     public void removeFromTracker(LocalDate localDate, String category, Float price) throws WheresMyMoneyException {
         LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
-        if (!this.containsTrackerOfPeriod(yearMonth)) {
-            throw new WheresMyMoneyException("No expense exists for this year and month."); // ?
-        }
         CategoryTracker categoryTracker = this.getTrackerOfPeriod(yearMonth);
         categoryTracker.deleteCategory(category, price);
         if (categoryTracker.isEmpty()) {
