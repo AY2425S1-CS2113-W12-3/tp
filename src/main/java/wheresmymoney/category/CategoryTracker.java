@@ -31,6 +31,7 @@ public class CategoryTracker {
     public HashMap<String, CategoryData> getTracker() {
         return tracker;
     }
+    public boolean isEmpty() { return tracker.isEmpty(); }
     public int size() {
         return tracker.size();
     }

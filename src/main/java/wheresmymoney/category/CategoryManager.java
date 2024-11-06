@@ -3,6 +3,9 @@ package wheresmymoney.category;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import wheresmymoney.DateUtils;
+import wheresmymoney.exception.WheresMyMoneyException;
+
 public class CategoryManager {
     private HashMap<LocalDate, CategoryTracker> trackerManager;
     
@@ -20,18 +23,35 @@ public class CategoryManager {
     public boolean isEmpty() {
         return trackerManager.isEmpty();
     }
-    public boolean containsKey(LocalDate localDate) {
-        return trackerManager.containsKey(localDate);
+    private boolean containsTrackerOfPeriod(LocalDate localDate) {
+        LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
+        return trackerManager.containsKey(yearMonth);
     }
     
-    public CategoryTracker getTracker(LocalDate localDate) {
-        return trackerManager.get(localDate);
+    private CategoryTracker getTrackerOfPeriod(LocalDate localDate) {
+        LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
+        return trackerManager.get(yearMonth);
     }
-    public void insertIntoTracker(LocalDate localDate) {
-        trackerManager.put(localDate, new CategoryTracker());
+    
+    public void insertIntoTracker(LocalDate localDate, String category, Float price) throws WheresMyMoneyException {
+        LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
+        if (!this.containsTrackerOfPeriod(yearMonth)) {
+            trackerManager.put(yearMonth, new CategoryTracker());
+        }
+        CategoryTracker categoryTracker = this.getTrackerOfPeriod(yearMonth);
+        categoryTracker.addCategory(category, price);
     }
-    public void removeFromTracker(LocalDate localDate) {
-        trackerManager.remove(localDate);
+    public void removeFromTracker(LocalDate localDate, String category, Float price) throws WheresMyMoneyException {
+        LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
+        if (!this.containsTrackerOfPeriod(yearMonth)) {
+            throw new WheresMyMoneyException("No expense exists for this year and month."); // ?
+        }
+        CategoryTracker categoryTracker = this.getTrackerOfPeriod(yearMonth);
+        categoryTracker.deleteCategory(category, price);
+        if (categoryTracker.isEmpty()) {
+            trackerManager.remove(localDate);
+        }
+    }
     }
     
 }

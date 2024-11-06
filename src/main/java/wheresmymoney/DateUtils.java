@@ -47,4 +47,8 @@ public class DateUtils {
     public static String dateFormatToString(LocalDate date) {
         return date.format(formatter);
     }
+    
+    public static LocalDate dayMonthYearToYearMonth(LocalDate localDate) {
+        return LocalDate.of(localDate.getYear(), localDate.getMonth(), 1);
+    }
 }
