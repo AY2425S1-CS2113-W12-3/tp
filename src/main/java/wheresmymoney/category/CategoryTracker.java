@@ -31,6 +31,7 @@ public class CategoryTracker {
     public HashMap<String, CategoryData> getTracker() {
         return tracker;
     }
+    public boolean isEmpty() { return tracker.isEmpty(); }
     public int size() {
         return tracker.size();
     }
@@ -89,33 +90,15 @@ public class CategoryTracker {
      * @throws WheresMyMoneyException If the category does not exist in the tracker.
      */
     public void addCategory(String category, Float price) throws WheresMyMoneyException {
-        if (tracker.containsKey(category)) {
+        if (!tracker.containsKey(category)) {
+            tracker.put(category, new CategoryData(price));
+        } else {
             CategoryData categoryData = getCategoryDataOf(category);
             assert categoryData != null : "Category exists.";
             categoryData.increaseCurrExpenditureBy(price);
-        } else {
-            CategoryData categoryData = new CategoryData(price);
-            tracker.put(category, categoryData);
         }
     }
-    /**
-     * Edits category details if an {@code Expense}'s category attribute is changed.
-     * <p>
-     * The {@code Expense}'s price is removed from the old category's total
-     * and added to the new category's total.
-     * </p>
-     *
-     * @param oldCategory The current category of the {@code Expense}.
-     * @param newCategory The new category of the {@code Expense}.
-     * @param oldPrice    The current price of the {@code Expense}.
-     * @param newPrice    The new price of the {@code Expense}.
-     * @throws WheresMyMoneyException If the category does not exist in the tracker.
-     */
-    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice)
-            throws WheresMyMoneyException {
-        deleteCategory(oldCategory, oldPrice);
-        addCategory(newCategory, newPrice);
-    }
+
     /**
      * Decreases an existing category's running total by the given price.
      *
@@ -134,6 +117,24 @@ public class CategoryTracker {
         if (categoryData.getCurrExpenditure() <= 0) {
             tracker.remove(category);
         }
+    }
+
+    /**
+     * Edits category details if an {@code Expense}'s category attribute is changed.
+     * <p>
+     * The {@code Expense}'s price is removed from the old category's total
+     * and added to the new category's total.
+     * </p>
+     *
+     * @param oldCategory The current category of the {@code Expense}.
+     * @param newCategory The new category of the {@code Expense}.
+     * @param oldPrice    The current price of the {@code Expense}.
+     * @param newPrice    The new price of the {@code Expense}.
+     * @throws WheresMyMoneyException If the category does not exist in the tracker.
+     */
+    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+        deleteCategory(oldCategory, oldPrice);
+        addCategory(newCategory, newPrice);
     }
     
     /**
