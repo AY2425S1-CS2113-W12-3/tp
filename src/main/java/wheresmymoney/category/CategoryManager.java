@@ -6,6 +6,9 @@ import java.util.HashMap;
 import wheresmymoney.DateUtils;
 import wheresmymoney.exception.WheresMyMoneyException;
 
+/**
+ * Sorts CategoryTracker by months
+ */
 public class CategoryManager {
     private HashMap<LocalDate, CategoryTracker> trackerManager;
     
@@ -31,7 +34,8 @@ public class CategoryManager {
     private CategoryTracker getTrackerOfPeriod(LocalDate localDate) throws WheresMyMoneyException {
         LocalDate yearMonth = DateUtils.dayMonthYearToYearMonth(localDate);
         if (containsTrackerOfPeriod(yearMonth)) {
-            throw new WheresMyMoneyException("No such year-month exists in the categoryManager.");
+            throw new WheresMyMoneyException("There is no categories tracked for the period of" +
+                    yearMonth.getMonth() + " " + yearMonth.getYear());
         }
         return trackerManager.get(yearMonth);
     }
