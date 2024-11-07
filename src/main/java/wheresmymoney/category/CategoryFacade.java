@@ -1,5 +1,7 @@
 package wheresmymoney.category;
 
+import java.time.LocalDate;
+
 import wheresmymoney.ExpenseList;
 import wheresmymoney.exception.StorageException;
 import wheresmymoney.exception.WheresMyMoneyException;
@@ -44,7 +46,8 @@ public class CategoryFacade {
      * @param price the price of the newly added Expense
      * @throws WheresMyMoneyException if there is an error while adding the category
      */
-    public void addCategory(String category, float price) throws WheresMyMoneyException {
+    public void addCategory(LocalDate localDate, String category, float price) throws WheresMyMoneyException {
+        categoryManager.insertIntoTracker(localDate, category, price);
         categoryTracker.addCategory(category, price);
         categoryTracker.checkLimitOf(category);
     }
@@ -55,7 +58,8 @@ public class CategoryFacade {
      * @param price the price of the Expense to be deleted
      * @throws WheresMyMoneyException if there is an error while deleting the category
      */
-    public void deleteCategory(String category, Float price) throws WheresMyMoneyException {
+    public void deleteCategory(LocalDate localDate, String category, Float price) throws WheresMyMoneyException {
+        categoryManager.removeFromTracker(localDate, category, price);
         categoryTracker.deleteCategory(category, price);
     }
     /**
@@ -67,8 +71,9 @@ public class CategoryFacade {
      * @param newPrice    The new price of the {@code Expense}.
      * @throws WheresMyMoneyException if there is an error while editing the category
      */
-    public void editCategory(String oldCategory, String newCategory, Float oldPrice, Float newPrice)
-            throws WheresMyMoneyException {
+    public void editCategory(LocalDate oldDate, LocalDate newDate, String oldCategory, String newCategory,
+                             Float oldPrice, Float newPrice) throws WheresMyMoneyException {
+        categoryManager.editInTracker(oldDate, newDate, oldCategory, newCategory, oldPrice, newPrice);
         categoryTracker.editCategory(oldCategory, newCategory, oldPrice, newPrice);
         categoryTracker.checkLimitOf(newCategory);
     }
