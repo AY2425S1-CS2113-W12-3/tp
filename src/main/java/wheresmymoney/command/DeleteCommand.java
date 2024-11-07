@@ -31,7 +31,7 @@ public class DeleteCommand extends Command {
             } else {
                 Expense expense = expenseList.getExpenseAtIndex(index);
                 expenseList.deleteExpense(index);
-                categoryFacade.deleteCategory(expense.getCategory(), expense.getPrice());
+                categoryFacade.deleteCategory(expense.getDateAdded(), expense.getCategory(), expense.getPrice());
             }
         } catch (NullPointerException | NumberFormatException e) {
             throw new InvalidInputException("Invalid Arguments.");

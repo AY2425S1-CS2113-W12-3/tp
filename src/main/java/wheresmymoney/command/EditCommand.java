@@ -1,5 +1,6 @@
 package wheresmymoney.command;
 
+import wheresmymoney.DateUtils;
 import wheresmymoney.category.CategoryFacade;
 import wheresmymoney.ExpenseList;
 import wheresmymoney.Parser;
@@ -7,6 +8,7 @@ import wheresmymoney.RecurringExpenseList;
 import wheresmymoney.exception.InvalidInputException;
 import wheresmymoney.exception.WheresMyMoneyException;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class EditCommand extends Command {
@@ -54,8 +56,10 @@ public class EditCommand extends Command {
                 recurringExpenseList.editRecurringExpense(
                         index, oldPrice, description, newCategory, dateAdded, frequency);
             } else {
+                LocalDate oldDate = expenseList.getExpenseAtIndex(index).getDateAdded();
                 expenseList.editExpense(index, oldPrice, description, newCategory, dateAdded);
-                categoryFacade.editCategory(oldCategory, newCategory, oldPrice, newPrice);
+                LocalDate newDate = DateUtils.stringToDate(dateAdded);
+                categoryFacade.editCategory(oldDate, newDate, oldCategory, newCategory, oldPrice, newPrice);
             }
         } catch (NullPointerException | NumberFormatException e) {
             throw new InvalidInputException("Invalid Arguments.");

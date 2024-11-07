@@ -1,5 +1,6 @@
 package wheresmymoney.command;
 
+import wheresmymoney.DateUtils;
 import wheresmymoney.category.CategoryFacade;
 import wheresmymoney.ExpenseList;
 import wheresmymoney.Parser;
@@ -35,10 +36,10 @@ public class AddCommand extends Command {
             if (isContainDateKey && !this.isRecur()) {
                 String dateAdded = argumentsMap.get(Parser.ARGUMENT_DATE);
                 expenseList.addExpense(price, description, category, dateAdded);
-                categoryFacade.addCategory(category, price);
+                categoryFacade.addCategory(DateUtils.stringToDate(dateAdded), category, price);
             } else if (!isContainDateKey && !this.isRecur()) {
                 expenseList.addExpense(price, description, category);
-                categoryFacade.addCategory(category, price);
+                categoryFacade.addCategory(DateUtils.getCurrentDate(), category, price); // no other way to get date
             } else if (isContainDateKey && this.isRecur()) {
                 String lastAddedDate = argumentsMap.get(Parser.ARGUMENT_DATE);
                 String frequency = argumentsMap.get(Parser.ARGUMENT_FREQUENCY);
