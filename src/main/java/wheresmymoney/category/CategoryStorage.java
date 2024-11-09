@@ -25,14 +25,14 @@ public class CategoryStorage {
      * @return A CategoryTracker containing the total spending for each category based on the provided expense list.
      * @throws WheresMyMoneyException If an error occurs while adding a category.
      */
-    public CategoryTracker trackCategoriesOf(ArrayList<Expense> expenseList) throws WheresMyMoneyException {
-        CategoryTracker categoryTracker = new CategoryTracker();
+    public CategoryTotalTracker trackCategoriesOf(ArrayList<Expense> expenseList) throws WheresMyMoneyException {
+        CategoryTotalTracker categoryTotalTracker = new CategoryTotalTracker();
         for (Expense expense : expenseList) {
             String categoryName = expense.getCategory();
             Float price = expense.getPrice();
-            categoryTracker.addCategory(categoryName, price);
+            categoryTotalTracker.increaseTotalBy(categoryName, price);
         }
-        return categoryTracker;
+        return categoryTotalTracker;
     }
     
     /**
@@ -40,7 +40,7 @@ public class CategoryStorage {
      *
      * @param filePath File Path to read CSV from
      */
-    public CategoryTracker loadFromCsv(String filePath, CategoryTracker categoryTracker) throws StorageException {
+    public CategoryTotalTracker loadFromCsv(String filePath, CategoryTotalTracker categoryTotalTracker) throws StorageException {
         CsvUtils.readCsv(filePath, line -> {
             if (line.length != 2) {
                 return;
@@ -48,12 +48,12 @@ public class CategoryStorage {
 
             String categoryName = line[0];
             Float spendingLimit = Float.parseFloat(line[1]);
-            if (categoryTracker.contains(categoryName)) {
-                CategoryData categoryData = categoryTracker.getCategoryDataOf(categoryName);
+            if (categoryTotalTracker.contains(categoryName)) {
+                CategoryData categoryData = categoryTotalTracker.getTotalFor(categoryName);
                 categoryData.setMaxExpenditure(spendingLimit);
             }
         });
-        return categoryTracker;
+        return categoryTotalTracker;
     }
 
     /**
@@ -61,11 +61,11 @@ public class CategoryStorage {
      *
      * @param filePath File Path to save csv to
      */
-    public void saveToCsv(String filePath, HashMap<String, CategoryData> tracker) throws StorageException {
+    public void saveToCsv(String filePath, HashMap<String, Float> limitTracker) throws StorageException {
         String[] header = { "Category", "SpendingLimit" };
         CsvUtils.writeCsv(filePath, header, (writer) -> {
-            for (String categoryName : tracker.keySet()) {
-                Float spendingLimit = tracker.get(categoryName).getMaxExpenditure();
+            for (String categoryName : limitTracker.keySet()) {
+                Float spendingLimit = limitTracker.get(categoryName);
                 String[] row = { categoryName, spendingLimit.toString() };
                 writer.writeNext(row);
             }
