@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import wheresmymoney.exception.WheresMyMoneyException;
+
 public class CategoryFilter {
     private CategoryFacade categoryFacade;
     private PriorityQueue<Map.Entry<String, CategoryData>> exceededCategories;
@@ -13,17 +15,54 @@ public class CategoryFilter {
         this.categoryFacade = categoryFacade;
     }
     
-    /**
-     * Initializes and returns a new {@code PriorityQueue} sorted by the
-     * categories' current total expenditure in descending order.
-     *
-     * @return a {@code PriorityQueue} that sorts categories by current expenditure.
-     */
-    private PriorityQueue<Map.Entry<String, CategoryData>> initMaxHeap() {
-        return new PriorityQueue<>(
-                (cat1, cat2) -> cat2.getValue().getCurrExpenditure().compareTo(cat1.getValue().getCurrExpenditure())
-        );
+    private Float[] getTotalAndLimit(String category) {
+        Float currTotal = categoryFacade.getMonthlyTotalTracker().getCurrMonthTotalFor(category);
+        Float spendingLimit = categoryFacade.getCategoryLimitTracker().getLimitFor(category);
+        return new Float[] {currTotal, spendingLimit};
     }
+    /**
+     * Checks if the expenditure for this category is nearing its spending limit.
+     * Nearing the limit is defined as the current total expenditure exceeding
+     * 80% of its spending limit.
+     *
+     * @return {@code true} if the current total expenditure is at least 80% of the spending limit,
+     *         {@code false} otherwise.
+     */
+    private boolean isNearingLimit(Float currTotal, Float spendingLimit) {
+        return Float.compare(currTotal, 0.80F * spendingLimit) >= 0;
+    }
+    /**
+     * Checks if the current total expenditure for this category has exceeded its spending limit.
+     *
+     * @return {@code true} if the current total expenditure exceeds the spending limit,
+     *         {@code false} otherwise.
+     */
+    private boolean hasExceededLimit(Float currTotal, Float spendingLimit) {
+        return Float.compare(currTotal, spendingLimit) > 0;
+    }
+    /**
+     * Checks if the expenditure for a given category is nearing or exceeding the spending limit.
+     * If the limit is exceeded, an alert message is printed.
+     * If the spending is nearing the limit, a warning message is printed.
+     *
+     * @param category The name of the category to check.
+     * @throws WheresMyMoneyException If the category does not exist in the tracker.
+     */
+    public void checkLimitFor(String category) throws WheresMyMoneyException {
+        Float[] spendingData = getTotalAndLimit(category);
+        Float currTotal = spendingData[0];
+        Float spendingLimit = spendingData[1];
+        boolean hasExceededLimit = hasExceededLimit(currTotal, spendingLimit);
+        boolean isNearingLimit = isNearingLimit(currTotal, spendingLimit);
+        if (hasExceededLimit) {
+            System.out.println("Alert! You have exceeded the spending limit of " + spendingLimit +
+                    " for the category of " + category + ", with a total expenditure of " + currTotal + ". ");
+        } else if (isNearingLimit) {
+            System.out.println("Warning! You are close to the spending limit of " + spendingLimit +
+                    " for the category of " + category  + ", with a total expenditure of " + currTotal + ". ");
+        }
+    }
+    
     /**
      * Filters categories from the provided {@code CategoryTracker} into two heaps.
      * <p>
@@ -33,10 +72,11 @@ public class CategoryFilter {
      * </p>
      */
     public void getCategoriesFiltered() {
-        HashMap<String, CategoryData> tracker = categoryFacade.getCategoryTracker().getTracker();
-        exceededCategories = initMaxHeap();
-        nearingCategories = initMaxHeap();
-        for (Map.Entry<String, CategoryData> entry : tracker.entrySet()) {
+        HashMap<String, Float> totalTracker = categoryFacade.getMonthlyTotalTracker().getCurrMonthTotalFor();
+        HashMap<String, Float> limitTracker = categoryFacade.getCategoryLimitTracker().getLimits();
+        exceededCategories = new PriorityQueue<>((f1, f2) -> Float.compare(f2, f1) );
+        nearingCategories = initMaxHeap(); // ?
+        for (Map.Entry<String, CategoryData> entry : limitTracker.entrySet()) {
             CategoryData categoryData = entry.getValue();
             if (categoryData.hasExceededLimit()) {
                 exceededCategories.add(entry);
@@ -45,7 +85,6 @@ public class CategoryFilter {
             }
         }
     }
-    
     /**
      * Displays the categories in the provided category heap.
      * <p>
@@ -58,7 +97,7 @@ public class CategoryFilter {
      * @param messageIfFound the message to display if the queue contains categories.
      * @param messageIfNoneFound the message to display if the queue is empty.
      */
-    private void displayFilteredCategories(PriorityQueue<Map.Entry<String, CategoryData>> filtered,
+    private void displayFilteredCategories(PriorityQueue<Map.Entry<String, Float>> filtered,
                                           String messageIfFound, String messageIfNoneFound) {
         if (!filtered.isEmpty()) {
             System.out.println(messageIfFound);
