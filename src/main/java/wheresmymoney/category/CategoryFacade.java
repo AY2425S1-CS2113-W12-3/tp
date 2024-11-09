@@ -18,25 +18,24 @@ import wheresmymoney.exception.WheresMyMoneyException;
  * </p>
  */
 public class CategoryFacade {
-    private CategoryManager categoryManager;
-    private CategoryTracker categoryTracker;
+    private CategoryMonthlyTotalTracker monthlyTotalTracker;
+    private CategoryLimitTracker limitTracker;
     private CategoryFilter categoryFilter;
     private CategoryStorage categoryStorage;
     
     public CategoryFacade() {
-        this.categoryManager = new CategoryManager();
-        this.categoryTracker = new CategoryTracker();
+        this.monthlyTotalTracker = new CategoryMonthlyTotalTracker();
+        this.limitTracker = new CategoryLimitTracker();
         this.categoryFilter = new CategoryFilter();
         this.categoryStorage = new CategoryStorage();
-        // ?
         this.categoryFilter.setCategoryFacade(this);
         this.categoryStorage.setCategoryFacade(this);
     }
-    public CategoryTracker getCategoryTracker() {
-        return categoryTracker;
+    public CategoryMonthlyTotalTracker getMonthlyTotalTracker() {
+        return monthlyTotalTracker;
     }
-    public CategoryManager getCategoryManager() {
-        return categoryManager;
+    public CategoryLimitTracker getCategoryLimitTracker() {
+        return limitTracker;
     }
     
     /**
@@ -47,9 +46,8 @@ public class CategoryFacade {
      * @throws WheresMyMoneyException if there is an error while adding the category
      */
     public void addCategory(LocalDate localDate, String category, float price) throws WheresMyMoneyException {
-        categoryManager.insertIntoTracker(localDate, category, price);
-        categoryTracker.addCategory(category, price);
-        categoryTracker.checkLimitOf(category);
+        monthlyTotalTracker.increaseTotalsOf(localDate, category, price);
+        categoryFilter.checkLimitFor(category);
     }
     /**
      * The interface for {@code DeleteCommand} when the user deletes an Expense.
@@ -59,8 +57,7 @@ public class CategoryFacade {
      * @throws WheresMyMoneyException if there is an error while deleting the category
      */
     public void deleteCategory(LocalDate localDate, String category, Float price) throws WheresMyMoneyException {
-        categoryManager.removeFromTracker(localDate, category, price);
-        categoryTracker.deleteCategory(category, price);
+        monthlyTotalTracker.decreaseTotalsOf(localDate, category, price);
     }
     /**
      * The interface for {@code EditCommand} when the user edits an Expense.
@@ -73,9 +70,8 @@ public class CategoryFacade {
      */
     public void editCategory(LocalDate oldDate, LocalDate newDate, String oldCategory, String newCategory,
                              Float oldPrice, Float newPrice) throws WheresMyMoneyException {
-        categoryManager.editInTracker(oldDate, newDate, oldCategory, newCategory, oldPrice, newPrice);
-        categoryTracker.editCategory(oldCategory, newCategory, oldPrice, newPrice);
-        categoryTracker.checkLimitOf(newCategory);
+        monthlyTotalTracker.editTotalsOf(oldDate, newDate, oldCategory, newCategory, oldPrice, newPrice);
+        categoryFilter.checkLimitFor(newCategory);
     }
     
     /**
@@ -84,7 +80,7 @@ public class CategoryFacade {
      * @param expenseList the list of expenses to track category information
      * @throws WheresMyMoneyException if there is an error while loading category info
      */
-    public void loadCategoryInfo(ExpenseList expenseList, String filePath) throws WheresMyMoneyException {
+    public void loadCategoryLimits(ExpenseList expenseList, String filePath) throws WheresMyMoneyException {
         categoryTracker = categoryStorage.loadFromCsv(
                 filePath, categoryStorage.trackCategoriesOf(expenseList.getExpenseList()));
     }
@@ -94,7 +90,7 @@ public class CategoryFacade {
      * The interface for {@code LoadCommand} to show filtered categories
      * based on spending limits.
      */
-    public void displayFilteredCategories() {
+    public void displayExceededAndNearingCategories() {
         categoryFilter.getCategoriesFiltered();
         categoryFilter.displayExceededCategories();
         categoryFilter.displayNearingCategories();
@@ -104,8 +100,8 @@ public class CategoryFacade {
      *
      * @throws StorageException if there is an error while saving category info
      */
-    public void saveCategoryInfo(String filePath) throws StorageException {
-        categoryStorage.saveToCsv(filePath, categoryTracker.getTracker());
+    public void saveCategoryLimits(String filePath) throws StorageException {
+        categoryStorage.saveToCsv(filePath, limitTracker.getLimits());
     }
     /**
      * The interface for {@code SetCommand} to set a spending limit for a specified category.
@@ -114,7 +110,7 @@ public class CategoryFacade {
      * @param limit the spending limit to set for the category
      * @throws WheresMyMoneyException if there is an error while setting the spending limit
      */
-    public void setCategorySpendingLimit(String category, float limit) throws WheresMyMoneyException {
-        categoryTracker.setSpendingLimitFor(category, limit);
+    public void editLimitFor(String category, float limit) throws WheresMyMoneyException {
+        limitTracker.setCustomLimitFor(category, limit);
     }
 }
