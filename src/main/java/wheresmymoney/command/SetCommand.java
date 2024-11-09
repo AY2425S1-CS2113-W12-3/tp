@@ -20,7 +20,7 @@ public class SetCommand extends Command {
         try {
             String category = argumentsMap.get(Parser.ARGUMENT_CATEGORY);
             float limit = Float.parseFloat(argumentsMap.get(Parser.ARGUMENT_LIMIT));
-            categoryFacade.setCategorySpendingLimit(category, limit);
+            categoryFacade.editLimitFor(category, limit);
         } catch (NullPointerException | NumberFormatException e) {
             throw new InvalidInputException("Invalid Arguments");
         }
