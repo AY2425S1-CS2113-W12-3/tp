@@ -14,7 +14,7 @@ public class Storage {
             String expenseFilePath, String categoryFilePath, String recurrExpenseFilePath) throws StorageException {
         if (expenseFilePath == null && recurrExpenseFilePath == null && categoryFilePath == null){
             expenseList.saveToCsv(EXPENSES_FILE_PATH);
-            categoryFacade.saveCategoryInfo(CATEGORIES_FILE_PATH);
+            categoryFacade.saveCategoryLimits(CATEGORIES_FILE_PATH);
             recurringExpenseList.saveToCsv(RECURRING_EXPENSES_FILE_PATH);
             Ui.displayMessage("Saved to default file paths");
             return;
@@ -26,7 +26,7 @@ public class Storage {
         }
 
         if (categoryFilePath != null) {
-            categoryFacade.saveCategoryInfo(categoryFilePath);
+            categoryFacade.saveCategoryLimits(categoryFilePath);
             Ui.displayMessage("Saved Category Info");
         }
 
@@ -43,7 +43,7 @@ public class Storage {
             throws WheresMyMoneyException {
         if (expenseFilePath == null && recurrExpenseFilePath == null && categoryFilePath == null){
             expenseList.loadFromCsv(categoryFacade, EXPENSES_FILE_PATH);
-            categoryFacade.loadCategoryInfo(expenseList, CATEGORIES_FILE_PATH);
+            categoryFacade.loadCategoryLimits(expenseList, CATEGORIES_FILE_PATH);
             recurringExpenseList.loadFromCsv(RECURRING_EXPENSES_FILE_PATH);
             Ui.displayMessage("Loaded from default file paths");
             return;
@@ -55,7 +55,7 @@ public class Storage {
         }
 
         if (categoryFilePath != null) {
-            categoryFacade.loadCategoryInfo(expenseList, categoryFilePath);
+            categoryFacade.loadCategoryLimits(expenseList, categoryFilePath);
             Ui.displayMessage("Loaded Category Info");
         }
 
