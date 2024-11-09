@@ -17,14 +17,14 @@ import wheresmymoney.exception.WheresMyMoneyException;
  * </p>
  *
  */
-public class CategoryTracker {
+public class CategoryTotal {
     private HashMap<String, CategoryData> tracker;
     
     /**
      * Constructs a {@code CategoryTracker} object to manage category expenditures.
      * Initializes an empty tracker.
      */
-    public CategoryTracker() {
+    public CategoryTotal() {
         this.tracker = new HashMap<>();
     }
     

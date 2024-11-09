@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import wheresmymoney.category.CategoryData;
-import wheresmymoney.category.CategoryTracker;
+import wheresmymoney.category.CategoryTotal;
 import wheresmymoney.exception.WheresMyMoneyException;
 
-class CategoryTrackerTest {
+class CategoryTotalTest {
     
     @Test
     void getCategoryDataOf_categoryInMap_returnsCategoryData() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         try {
             tracker.addCategory("category", 0.00F);
             
@@ -31,14 +31,14 @@ class CategoryTrackerTest {
     }
     @Test
     void getCategoryDataOf_categoryNotInMap_throwsWheresMyMoneyException() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         assertThrows(WheresMyMoneyException.class,
                 () -> tracker.getCategoryDataOf("category"));
     }
     
     @Test
     void addCategory_categoryInMap_incrementsThatCategoryCurrExpenditure() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         try {
             tracker.addCategory("category", 23.00F);
             
@@ -54,7 +54,7 @@ class CategoryTrackerTest {
     }
     @Test
     void addCategory_categoryNotInMap_categoryAddedToMap() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         try {
             assertEquals(0, tracker.size());
             assertFalse(tracker.contains("category"));
@@ -70,7 +70,7 @@ class CategoryTrackerTest {
     
     @Test
     void deleteCategory_categoryInMap_decrementsCurrExpenditure() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         try {
             tracker.addCategory("category", 100.00F);
             
@@ -86,7 +86,7 @@ class CategoryTrackerTest {
     }
     @Test
     void deleteCategory_categoryInMap_removesCategoryFromMap() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         try {
             tracker.addCategory("category", 100.00F);
             
@@ -103,7 +103,7 @@ class CategoryTrackerTest {
     }
     @Test
     void deleteCategory_categoryNotInMap_throwsWheresMyMoneyException() {
-        CategoryTracker tracker = new CategoryTracker();
+        CategoryTotal tracker = new CategoryTotal();
         assertThrows(WheresMyMoneyException.class,
                 () -> tracker.deleteCategory("category", 420.00F));
     }
