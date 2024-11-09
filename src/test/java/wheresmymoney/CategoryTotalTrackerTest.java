@@ -9,18 +9,18 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import wheresmymoney.category.CategoryData;
-import wheresmymoney.category.CategoryTotal;
+import wheresmymoney.category.CategoryTotalTracker;
 import wheresmymoney.exception.WheresMyMoneyException;
 
-class CategoryTotalTest {
+class CategoryTotalTrackerTest {
     
     @Test
     void getCategoryDataOf_categoryInMap_returnsCategoryData() {
-        CategoryTotal tracker = new CategoryTotal();
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         try {
-            tracker.addCategory("category", 0.00F);
+            tracker.increaseTotalBy("category", 0.00F);
             
-            CategoryData actual = tracker.getCategoryDataOf("category");
+            CategoryData actual = tracker.getTotalFor("category");
             CategoryData expected = new CategoryData(0.00F, 100.00F);
             
             assertEquals(expected.getCurrExpenditure(), actual.getCurrExpenditure());
@@ -31,35 +31,35 @@ class CategoryTotalTest {
     }
     @Test
     void getCategoryDataOf_categoryNotInMap_throwsWheresMyMoneyException() {
-        CategoryTotal tracker = new CategoryTotal();
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         assertThrows(WheresMyMoneyException.class,
-                () -> tracker.getCategoryDataOf("category"));
+                () -> tracker.getTotalFor("category"));
     }
     
     @Test
-    void addCategory_categoryInMap_incrementsThatCategoryCurrExpenditure() {
-        CategoryTotal tracker = new CategoryTotal();
+    void increaseTotalByCurrExpenditure() {
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         try {
-            tracker.addCategory("category", 23.00F);
+            tracker.increaseTotalBy("category", 23.00F);
             
             assertEquals(1, tracker.size());
-            tracker.addCategory("category", 46.00F);
+            tracker.increaseTotalBy("category", 46.00F);
             assertEquals(1, tracker.size());
             
-            Float newCurrExpenditure = tracker.getCategoryDataOf("category").getCurrExpenditure();
+            Float newCurrExpenditure = tracker.getTotalFor("category").getCurrExpenditure();
             assertEquals(69.00F, newCurrExpenditure);
         } catch (WheresMyMoneyException e) {
             fail("Exception thrown when inputs are not null.");
         }
     }
     @Test
-    void addCategory_categoryNotInMap_categoryAddedToMap() {
-        CategoryTotal tracker = new CategoryTotal();
+    void increaseTotalByAddedToMap() {
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         try {
             assertEquals(0, tracker.size());
             assertFalse(tracker.contains("category"));
             
-            tracker.addCategory("category", 10.00F);
+            tracker.increaseTotalBy("category", 10.00F);
             
             assertEquals(1, tracker.size());
             assertTrue(tracker.contains("category"));
@@ -69,31 +69,31 @@ class CategoryTotalTest {
     }
     
     @Test
-    void deleteCategory_categoryInMap_decrementsCurrExpenditure() {
-        CategoryTotal tracker = new CategoryTotal();
+    void decreaseTotalByInMap_decrementsCurrExpenditure() {
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         try {
-            tracker.addCategory("category", 100.00F);
+            tracker.increaseTotalBy("category", 100.00F);
             
             assertEquals(1, tracker.size());
-            tracker.deleteCategory("category", 31.00F);
+            tracker.decreaseTotalBy("category", 31.00F);
             assertEquals(1, tracker.size());
             
-            Float newCurrExpenditure = tracker.getCategoryDataOf("category").getCurrExpenditure();
+            Float newCurrExpenditure = tracker.getTotalFor("category").getCurrExpenditure();
             assertEquals(69.00F, newCurrExpenditure);
         } catch (WheresMyMoneyException e) {
             fail("Exception thrown when inputs are not null.");
         }
     }
     @Test
-    void deleteCategory_categoryInMap_removesCategoryFromMap() {
-        CategoryTotal tracker = new CategoryTotal();
+    void decreaseTotalByFromMap() {
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         try {
-            tracker.addCategory("category", 100.00F);
+            tracker.increaseTotalBy("category", 100.00F);
             
             assertEquals(1, tracker.size());
             assertTrue(tracker.contains("category"));
             
-            tracker.deleteCategory("category", 100.00F);
+            tracker.decreaseTotalBy("category", 100.00F);
             
             assertEquals(0, tracker.size());
             assertFalse(tracker.contains("category"));
@@ -102,10 +102,10 @@ class CategoryTotalTest {
         }
     }
     @Test
-    void deleteCategory_categoryNotInMap_throwsWheresMyMoneyException() {
-        CategoryTotal tracker = new CategoryTotal();
+    void decreaseTotalByNotInMap_throwsWheresMyMoneyException() {
+        CategoryTotalTracker tracker = new CategoryTotalTracker();
         assertThrows(WheresMyMoneyException.class,
-                () -> tracker.deleteCategory("category", 420.00F));
+                () -> tracker.decreaseTotalBy("category", 420.00F));
     }
     
 }
